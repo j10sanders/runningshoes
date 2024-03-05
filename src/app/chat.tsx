@@ -9,23 +9,6 @@ export type MessageType = {
   role: "user" | "assistant";
   content: string;
 };
-const CustomForm = styled("form")`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 825px;
-  align-items: center;
-`;
-
-// const ChatButton = styled(FillButton)`
-//   padding: 0;
-//   position: absolute;
-//   top: 15px;
-//   right: 28px;
-//   padding: 0;
-//   width: 48px;
-//   height: 48px;
-// `;
 
 export const scaleFromLeft = {
   active: {

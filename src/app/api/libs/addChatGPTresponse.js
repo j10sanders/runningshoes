@@ -1,23 +1,19 @@
 import OpenAI from "openai";
 
-// TODO: change to use summary
-export const addChatGPTresponse = async (video, messages) => {
+// TODO: make another call to see if the user wants to know about a different shoe, and if so, search for that shoe's reviews
+export const addChatGPTresponse = async (videos, messages, shoe) => {
   console.log(process.env.OPENAI_API_KEY);
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   if (messages.length == 0) {
     messages = [
       {
         role: "system",
-        content:
-          "You are a helpful youtube transcript assistant. You help people find provide information in youtube video based on the captions.",
+        content: `You tell users about running shoe reviews so they can make purchasing decisions. These are the relevant videos with summaries you can use to answer questions: ${videos}.
+        Don't tell them to watch the videos - they are coming to you to learn about the shoes.`,
       },
       {
         role: "user",
-        content: `The following youtube video transcript:\n\n${video.summary}\n\nAnswer the following question or questions based on the transcript.`,
-      },
-      {
-        role: "user",
-        content: `Summarise what this video is about, and point on three key learnings.`,
+        content: `I want to know what reviewers think about the ${shoe} shoe. Can you help me?`,
       },
     ];
   }
@@ -43,7 +39,7 @@ export const addGPTSummary = async (transcript) => {
       {
         role: "system",
         content:
-          "You are a helpful youtube transcript assistant. You help people find provide information in youtube video based on the captions.",
+          "You are a helpful youtube transcript assistant. You summarize information in youtube video based on the captions so that it can be queried.",
       },
       {
         role: "user",

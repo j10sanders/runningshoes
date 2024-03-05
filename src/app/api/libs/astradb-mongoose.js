@@ -1,15 +1,8 @@
 import mongoose from "mongoose";
 import { driver, createAstraUri } from "stargate-mongoose";
+import { generateEmbedding } from "./generateEmbedding";
 
 export const connectToAstraDb = async () => {
-  // console.log(process.env);
-  // const uri = createAstraUri(
-  //   process.env.ASTRA_DB_ID,
-  //   process.env.ASTRA_DB_REGION,
-  //   process.env.ASTRA_DB_KEYSPACE,
-  //   process.env.ASTRA_DB_APPLICATION_TOKEN
-  // );
-
   const uri = createAstraUri(
     process.env.ASTRA_DB_ENDPOINT,
     process.env.ASTRA_DB_APPLICATION_TOKEN,
@@ -54,6 +47,20 @@ export const initMongooseVideoModel = async () => {
     )
   );
   await Video.init();
+};
+
+export const findVideos = async (query) => {
+  const embedding = await generateEmbedding(query);
+  const videos = await mongoose
+    .model("Video")
+    .find(
+      {},
+      { title: 1, url: 1, summary: 1, $vector: 1 },
+      { includeSimilarity: true }
+    )
+    .sort({ $vector: { $meta: embedding } })
+    .limit(3);
+  console.log("These are the videos:-------------------", videos);
 };
 
 export { mongoose };
