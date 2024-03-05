@@ -2,8 +2,11 @@ import { getYoutubeTranscript } from "./getYoutubeTranscript";
 import { generateEmbedding } from "./generateEmbedding";
 import { getYoutubeVideoInfo } from "./getYoutubeVideoInfo";
 import { addGPTSummary } from "./addChatGPTresponse";
+import dbConnect from "./dbConnect";
+import { mongoose } from "./astradb-mongoose";
 
 export const addVideoToAstra = async (url) => {
+  await dbConnect();
   try {
     const Video = mongoose.model("Video");
 

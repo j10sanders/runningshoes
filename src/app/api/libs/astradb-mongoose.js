@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { driver, createAstraUri } from "stargate-mongoose";
 
 export const connectToAstraDb = async () => {
-  console.log(process.env);
+  // console.log(process.env);
   // const uri = createAstraUri(
   //   process.env.ASTRA_DB_ID,
   //   process.env.ASTRA_DB_REGION,
@@ -55,3 +55,5 @@ export const initMongooseVideoModel = async () => {
   );
   await Video.init();
 };
+
+export { mongoose };

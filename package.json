@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^2.0.3",
+    "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fontsource/inter": "^5.0.16",
@@ -20,6 +22,7 @@
     "openai": "^4.28.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-textarea-autosize": "^8.5.3",
     "stargate-mongoose": "^0.5.1",
     "youtube-transcript": "^1.0.6",
     "ytdl-core": "^4.11.5"
