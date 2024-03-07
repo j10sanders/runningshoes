@@ -8,7 +8,6 @@ export const connectToAstraDb = async () => {
     process.env.ASTRA_DB_APPLICATION_TOKEN,
     process.env.ASTRA_DB_KEYSPACE
   );
-  console.log("hello");
 
   mongoose.set("autoCreate", true);
   mongoose.setDriver(driver);
@@ -60,7 +59,6 @@ export const findVideos = async (query) => {
     )
     .sort({ $vector: { $meta: embedding } })
     .limit(3);
-  console.log("These are the videos:-------------------", videos);
 };
 
 export { mongoose };

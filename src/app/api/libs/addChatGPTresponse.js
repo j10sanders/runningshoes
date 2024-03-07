@@ -1,22 +1,24 @@
 import OpenAI from "openai";
+import { initialMessage } from "@/app/app";
 
 // TODO: make another call to see if the user wants to know about a different shoe, and if so, search for that shoe's reviews
-export const addChatGPTresponse = async (videos, messages, shoe) => {
-  console.log(process.env.OPENAI_API_KEY);
+export const addChatGPTresponse = async (videos, messages) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   if (messages.length == 0) {
     messages = [
       {
         role: "system",
-        content: `You tell users about running shoe reviews so they can make purchasing decisions. These are the relevant videos with summaries you can use to answer questions: ${videos}.
-        Don't tell them to watch the videos - they are coming to you to learn about the shoes.`,
+        content: `You tell users about running shoe reviews so they can make purchasing decisions. You have access to objects which represent youtube videos with summaries you can use to answer questions - the format is: {title, url, summary, author})
+        Here are the most relevant ones: ${JSON.stringify(videos)}.
+        Don't tell them to watch the videos - they are coming to you to learn about the shoes. Providing links to the videos is appreciated (to show your sources) - it is specified in the 'url' field of the object - you can respond in Markdown format.
+        Make sure to say the author's name when you discuss their thoughts. eg: "Thomas from Believe in the Run likes the outsole grip, but Matt from RoadTrailRun has an issue with its durability".`,
       },
-      {
-        role: "user",
-        content: `I want to know what reviewers think about the ${shoe} shoe. Can you help me?`,
-      },
+      ...initialMessage,
+      ...messages,
     ];
   }
+
+  console.log(`messages`, messages);
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
@@ -31,7 +33,6 @@ export const addChatGPTresponse = async (videos, messages, shoe) => {
 };
 
 export const addGPTSummary = async (transcript) => {
-  console.log(process.env.OPENAI_API_KEY);
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",

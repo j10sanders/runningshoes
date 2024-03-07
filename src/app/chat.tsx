@@ -4,6 +4,10 @@ import NextImage from "./next.svg";
 import Robot from "./robot.png";
 import { Message } from "./Message";
 import { FlexBox, Box } from "./Styles";
+import Markdown from "react-markdown";
+import rehypeExternalLinks from "rehype-external-links";
+import AI from "./aishoe.webp";
+import Runner from "./personRunning.jpeg";
 
 export type MessageType = {
   role: "user" | "assistant";
@@ -57,12 +61,18 @@ export const Chat: React.FC<MessagesProps> = ({ messages, loading }) => {
           {messages.map(({ content, role }) => (
             <Box key={content + role} backgroundColor="transparent">
               {role === "assistant" && content && (
-                <Message image={Robot} placement="left">
-                  {content}
+                <Message image={AI} placement="left">
+                  <Markdown
+                    rehypePlugins={[
+                      [rehypeExternalLinks, { target: "_blank" }],
+                    ]}
+                  >
+                    {content}
+                  </Markdown>
                 </Message>
               )}
               {role === "user" && (
-                <Message image={Robot} placement="right" maxHeight={400}>
+                <Message image={Runner} placement="right" maxHeight={400}>
                   {content}
                 </Message>
               )}
@@ -70,7 +80,7 @@ export const Chat: React.FC<MessagesProps> = ({ messages, loading }) => {
           ))}
           {loading && (
             <Box>
-              <Message image={Robot} placement="left">
+              <Message image={AI} placement="left">
                 <Box
                   display="block"
                   borderRadius={4}

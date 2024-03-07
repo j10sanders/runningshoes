@@ -1,7 +1,6 @@
 import { YoutubeTranscript } from "youtube-transcript";
 
 export const getVideoIdFromUrl = (url) => {
-  console.log(`getVideoIdFromUrl: ${url}`);
   let videoId = url.split("v=")[1];
   const ampersandPosition = videoId.indexOf("&");
   if (ampersandPosition !== -1) {

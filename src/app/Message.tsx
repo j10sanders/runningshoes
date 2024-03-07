@@ -1,4 +1,6 @@
 import { Box, FlexBox } from "./Styles";
+import Markdown from "react-markdown";
+import Image from "next/image";
 
 export interface MessageProps extends React.PropsWithChildren {
   image?: string;
@@ -6,7 +8,7 @@ export interface MessageProps extends React.PropsWithChildren {
   maxHeight?: number;
 }
 
-const Image = Box.withComponent("img");
+// const Image = Box.withComponent("img");
 
 export const Message: React.FC<MessageProps> = ({
   children,
@@ -26,21 +28,26 @@ export const Message: React.FC<MessageProps> = ({
     {image && (
       <Image
         alt="profile image"
-        borderRadius={30}
-        height={"60px"}
-        width={"60px"}
-        ml={placement === "right" ? 32 : 0}
-        mr={placement === "left" ? 32 : 0}
-        src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA5L3Jhd3BpeGVsX29mZmljZV8yOF9mZW1hbGVfbWluaW1hbF9yb2JvdF9mYWNlX29uX2RhcmtfYmFja2dyb3VuZF81ZDM3YjhlNy04MjRkLTQ0NWUtYjZjYy1hZmJkMDI3ZTE1NmYucG5n.png"
+        height={60}
+        width={60}
+        style={{
+          borderRadius: 30,
+          maxHeight: 60,
+          marginRight: placement === "left" ? 32 : 0,
+          marginLeft: placement === "right" ? 32 : 0,
+          marginTop: 8,
+        }}
+        src={image}
       />
     )}
     <Box
       backgroundColor="beige"
       ml={placement === "right" || !image ? (92 as never) : 0}
       mr={placement === "left" || !image ? (92 as never) : 0}
-      p={16}
+      p={32}
       fontSize={20}
       color="black"
+      borderRadius={16}
     >
       {children}
     </Box>

@@ -11,7 +11,6 @@ export const addVideoToAstra = async (url) => {
     const Video = mongoose.model("Video");
 
     const videoUrl = url;
-    console.log(`videoUrl`, videoUrl);
     const existingVideo = await Video.findOne({ url: videoUrl });
 
     if (existingVideo) {
@@ -24,11 +23,8 @@ export const addVideoToAstra = async (url) => {
     } else {
       let transcript = await getYoutubeTranscript(videoUrl);
       let summary = await addGPTSummary(transcript);
-      console.log(summary);
-      let vector = await generateEmbedding(summary);
-      console.log(`vector`, vector);
       let videoInfo = await getYoutubeVideoInfo(videoUrl);
-      console.log(videoInfo, "videoInfo");
+      let vector = await generateEmbedding(`${videoInfo.title}: ${summary}`);
       let addedVideo = await Video.create({
         ...videoInfo,
         url: videoUrl,
@@ -36,7 +32,6 @@ export const addVideoToAstra = async (url) => {
         $vector: vector,
       });
       console.log(addedVideo, "addedVideo");
-      console.log("Video inserted into the database");
       return {
         addedToAstra: true,
         ...addedVideo.toJSON(),

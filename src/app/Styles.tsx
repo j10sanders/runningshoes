@@ -1,58 +1,60 @@
 import styled from "@emotion/styled";
 
-type FlexBox = {
+type SharedProps = {
+  display?: string;
   flexDirection?: string;
   justifyContent?: string;
-  pt?: number;
-  width?: string;
-  overflow?: string;
-  maxHeight?: string | number;
-  height?: string;
   alignItems?: string;
-  backgroundColor?: string;
-};
-
-type Box = {
+  pt?: number;
+  pb?: number;
+  pl?: number;
+  pr?: number;
   ml?: number;
   mr?: number;
   p?: number;
-  fontSize?: number;
-  display?: string;
-  borderRadius?: number;
-  pt?: number;
-  px?: number;
-  pb?: number;
+  width?: string;
+  height?: string;
+  maxHeight?: string | number;
+  overflow?: string;
   backgroundColor?: string;
   color?: string;
-  height?: string;
+  fontSize?: number;
+  borderRadius?: number;
 };
 
-export const FlexBox = styled.div<FlexBox>`
-  display: flex;
-  flex-direction: ${(props) => props.flexDirection};
-  justify-content: ${(props) => props.justifyContent};
-  padding-top: ${(props) => props.pt}px;
-  width: ${(props) => props.width};
-  overflow: ${(props) => props.overflow};
-  max-height: ${(props) => props.maxHeight};
-  height: ${(props) => props.height};
-  align-items: ${(props) => props.alignItems};
-  background: ${(props) => props.backgroundColor};
+const cssProp = (prop: string | number | undefined, suffix = "") =>
+  prop !== undefined ? `${prop}${suffix}` : "";
+
+const sharedStyles = (props: SharedProps) => `
+  padding-top: ${cssProp(props.pt, "px")};
+  padding-bottom: ${cssProp(props.pb, "px")};
+  padding-left: ${cssProp(props.pl, "px")};
+  padding-right: ${cssProp(props.pr, "px")};
+  margin-left: ${cssProp(props.ml, "px")};
+  margin-right: ${cssProp(props.mr, "px")};
+  padding: ${cssProp(props.p, "px")};
+  width: ${props.width || "auto"};
+  height: ${props.height || "auto"};
+  max-height: ${cssProp(props.maxHeight)};
+  overflow: ${props.overflow || "visible"};
+  background-color: ${props.backgroundColor || "transparent"};
+  color: ${props.color || "inherit"};
+  font-size: ${cssProp(props.fontSize, "px")};
+  border-radius: ${cssProp(props.borderRadius, "px")};
+  flex-direction: ${props.flexDirection || "row"};
+  justify-content: ${props.justifyContent || "flex-start"};
+  align-items: ${props.alignItems || "stretch"};
 `;
 
-export const Box = styled.div<Box>`
-  background: #f0f0f0;
-  border-radius: 16px;
-  padding: ${(props) => props.p}px;
-  font-size: ${(props) => props.fontSize}px;
-  margin-left: ${(props) => props.ml}px;
-  margin-right: ${(props) => props.mr}px;
-  display: ${(props) => props.display};
-  border-radius: ${(props) => props.borderRadius}px;
-  padding-top: ${(props) => props.pt}px;
-  padding-x: ${(props) => props.px}px;
-  padding-bottom: ${(props) => props.pb}px;
-  background-color: ${(props) => props.backgroundColor};
-  color: ${(props) => props.color};
-  height: ${(props) => props.height};
+export const Box = styled.div<SharedProps>`
+  display: ${(props) => props.display || "block"};
+  ${sharedStyles}
+  a:link {
+    color: #0000ff;
+    text-decoration: underline;
+  }
+`;
+
+export const FlexBox = styled(Box)`
+  display: flex;
 `;
