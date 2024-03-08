@@ -15,6 +15,17 @@ export const addChatGPTresponse = async (videos, messages) => {
       },
       ...messages,
     ];
+  } else {
+    messages = [
+      ...messages.slice(0, -1),
+      {
+        role: "system",
+        content: `For the next question, this context might be helpful: ${JSON.stringify(
+          videos
+        )}. If it isn't helpful, disregard it.`,
+      },
+      messages[messages.length - 1],
+    ];
   }
 
   console.log(`messages`, messages);

@@ -59,6 +59,15 @@ export const findVideos = async (query) => {
     )
     .sort({ $vector: { $meta: embedding } })
     .limit(3);
+  return videos;
+};
+
+export const deleteVideoByURL = async (url) => {
+  await mongoose.model("Video").deleteOne({ url });
+};
+
+export const deleteVideoById = async (id) => {
+  await mongoose.model("Video").deleteOne({ _id: id });
 };
 
 export { mongoose };

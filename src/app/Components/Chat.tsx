@@ -1,23 +1,14 @@
 import styled from "@emotion/styled";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
-import NextImage from "./next.svg";
-import Robot from "./robot.png";
+import { Dispatch, FormEvent, SetStateAction, useRef, useEffect } from "react";
 import { Message } from "./Message";
 import { FlexBox, Box } from "./Styles";
 import Markdown from "react-markdown";
 import rehypeExternalLinks from "rehype-external-links";
-import AI from "./aishoe.webp";
-import Runner from "./personRunning.jpeg";
 import IconButton from "@mui/joy/IconButton";
 import Send from "@mui/icons-material/Send";
-import { AnimatedLoadingDots } from "./AnimatedLoadingDots";
+import { AnimatedLoadingDots } from "../AnimatedLoadingDots";
+import Avatar from "../assets/avatar.png";
+import AI from "../assets/ai.png";
 
 const CustomInput = styled("input")`
   flex-grow: 2;
@@ -25,7 +16,8 @@ const CustomInput = styled("input")`
   padding: 4px 8px;
   border-radius: 8px;
   height: 56px;
-  color: #000;
+  color: #fff;
+  background: #3c4043;
 `;
 
 const CustomForm = styled("form")`
@@ -72,6 +64,15 @@ export const Chat: React.FC<ChatProps> = ({
   setCurrentMessage,
   currentMessage,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const scrollToBottom = () => {
+    inputRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <FlexBox
       justifyContent="space-between"
@@ -95,7 +96,7 @@ export const Chat: React.FC<ChatProps> = ({
                 </Message>
               )}
               {role === "user" && (
-                <Message image={Runner} placement="right" maxHeight={400}>
+                <Message image={Avatar} placement="right" maxHeight={400}>
                   {content}
                 </Message>
               )}
@@ -119,7 +120,7 @@ export const Chat: React.FC<ChatProps> = ({
           )}
         </>
       </FlexBox>
-      <FlexBox width="100%" justifyContent="center" pt={100}>
+      <FlexBox width="100%" justifyContent="center" pt={100} pb={20}>
         <FlexBox alignItems="center" flexDirection="column" width="100%">
           <CustomForm
             onSubmit={(event: FormEvent<HTMLFormElement>) =>
@@ -127,6 +128,7 @@ export const Chat: React.FC<ChatProps> = ({
             }
           >
             <CustomInput
+              ref={inputRef}
               name="answer"
               value={currentMessage}
               onChange={(event) => setCurrentMessage(event.target.value)}
@@ -135,6 +137,8 @@ export const Chat: React.FC<ChatProps> = ({
               variant="plain"
               disabled={!currentMessage || loading}
               type="submit"
+              color="primary"
+              sx={{ "&:hover": { backgroundColor: "inherit" } }}
             >
               <Send />
             </IconButton>

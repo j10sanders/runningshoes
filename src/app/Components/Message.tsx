@@ -25,11 +25,11 @@ export const Message: React.FC<MessageProps> = ({
     {image && (
       <Image
         alt="profile image"
-        height={60}
-        width={60}
+        height={40}
+        width={40}
         style={{
           borderRadius: 30,
-          maxHeight: 60,
+          maxHeight: 40,
           marginRight: placement === "left" ? 32 : 0,
           marginLeft: placement === "right" ? 32 : 0,
           marginTop: 8,
@@ -38,12 +38,16 @@ export const Message: React.FC<MessageProps> = ({
       />
     )}
     <Box
-      backgroundColor="beige"
+      background={
+        placement === "left"
+          ? "#31343a"
+          : "linear-gradient(130deg,#0842a0 30%,#07347e 95%)"
+      }
       ml={placement === "right" || !image ? (92 as never) : 0}
       mr={placement === "left" || !image ? (92 as never) : 0}
       p={22}
       fontSize={20}
-      color="black"
+      color={placement === "left" ? "#e8eaed" : "#fff"}
       borderRadius={16}
     >
       {children}

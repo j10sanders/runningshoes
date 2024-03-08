@@ -1,23 +1,15 @@
 "use client";
 import styled from "@emotion/styled";
-import { Input, Button } from "@mui/joy";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { Chat, MessageType } from "./Chat";
-import { Message } from "./Message";
+import { FormEvent, useState } from "react";
+import { Chat, MessageType } from "./Components/Chat";
 
 const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
   justify-content: flex-start;
   width: 80%;
-`;
-
-const SearchBarContainer = styled.div`
-  padding: 20px;
-  padding-bottom: 40px;
 `;
 
 const ContentContainer = styled.div`
@@ -58,12 +50,11 @@ export const App = () => {
 
     try {
       const response = await fetch("/api/search-shoe", {
-        // Targeting the /api/ endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ messages: newMessages }), // Sending the video URL in the request body
+        body: JSON.stringify({ messages: newMessages }),
       });
 
       console.log("response", response);

@@ -24,7 +24,9 @@ export const addVideoToAstra = async (url) => {
       let transcript = await getYoutubeTranscript(videoUrl);
       let summary = await addGPTSummary(transcript);
       let videoInfo = await getYoutubeVideoInfo(videoUrl);
-      let vector = await generateEmbedding(`${videoInfo.title}: ${summary}`);
+      let vector = await generateEmbedding(
+        `${videoInfo.title} by ${videoInfo.author}: ${summary}`
+      );
       let addedVideo = await Video.create({
         ...videoInfo,
         url: videoUrl,

@@ -8,6 +8,5 @@ export const POST = async (req: Request) => {
   let videos = await findVideos(body.messages.slice(-1)[0].content);
   console.log(videos, "VIDEOS");
   let updatedMessages = await addChatGPTresponse(videos, messages);
-  console.log(updatedMessages, "UPDATEDMESSAGES");
   return new Response(JSON.stringify({ messages: updatedMessages }));
 };

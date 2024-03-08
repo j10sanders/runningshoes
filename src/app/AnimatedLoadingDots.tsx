@@ -1,9 +1,9 @@
-import { FlexBox } from "./Styles";
+import { FlexBox } from "./Components/Styles";
 import styled from "@emotion/styled";
 import { motion, MotionProps } from "framer-motion";
 
 const StyledCircle = styled(motion.div)`
-  background-color: #000;
+  background-color: #fff;
   width: 8px;
   height: 8px;
   border-radius: 50%;
