@@ -41,8 +41,6 @@ export const App = () => {
   );
   const [loading, setLoading] = useState(false);
 
-  console.log(currentMessage, "currentMessage");
-
   const handleSearchShoe = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
@@ -73,16 +71,13 @@ export const App = () => {
         throw new Error(`Error: ${response.statusText}`);
       }
       setLoading(false);
-      console.log(response, "RESPONSE");
       const data = await response.json();
       setMessages(data.messages);
-      console.log(data, "DATA");
     } catch (error) {
       console.error("Failed to fetch:", error);
     }
   };
 
-  // TODO: "Tell me what reviewers think about the: "
   return (
     <MainDiv>
       <ContentContainer>
