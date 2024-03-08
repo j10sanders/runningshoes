@@ -5,7 +5,7 @@ import { addGPTSummary } from "./addChatGPTresponse";
 import dbConnect from "./dbConnect";
 import { mongoose } from "./astradb-mongoose";
 
-export const addVideoToAstra = async (url) => {
+export const addVideoToAstra = async (url: string) => {
   await dbConnect();
   try {
     const Video = mongoose.model("Video");
@@ -25,7 +25,7 @@ export const addVideoToAstra = async (url) => {
       let summary = await addGPTSummary(transcript);
       let videoInfo = await getYoutubeVideoInfo(videoUrl);
       let vector = await generateEmbedding(
-        `${videoInfo.title} by ${videoInfo.author}: ${summary}`
+        `${videoInfo?.title} by ${videoInfo?.author}: ${summary}`
       );
       let addedVideo = await Video.create({
         ...videoInfo,

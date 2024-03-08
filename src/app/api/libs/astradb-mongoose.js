@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { driver, createAstraUri } from "stargate-mongoose";
-import { generateEmbedding } from "./generateEmbedding";
 
 export const connectToAstraDb = async () => {
   const uri = createAstraUri(
@@ -46,28 +45,6 @@ export const initMongooseVideoModel = async () => {
     )
   );
   await Video.init();
-};
-
-export const findVideos = async (query) => {
-  const embedding = await generateEmbedding(query);
-  const videos = await mongoose
-    .model("Video")
-    .find(
-      {},
-      { title: 1, url: 1, summary: 1, $vector: 1 },
-      { includeSimilarity: true }
-    )
-    .sort({ $vector: { $meta: embedding } })
-    .limit(3);
-  return videos;
-};
-
-export const deleteVideoByURL = async (url) => {
-  await mongoose.model("Video").deleteOne({ url });
-};
-
-export const deleteVideoById = async (id) => {
-  await mongoose.model("Video").deleteOne({ _id: id });
 };
 
 export { mongoose };

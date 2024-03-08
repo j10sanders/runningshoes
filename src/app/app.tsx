@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { FormEvent, useState } from "react";
-import { Chat, MessageType } from "./Components/Chat";
+import { Chat, VisibleMessageType } from "./Components/Chat";
 
 const MainDiv = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const ContentContainer = styled.div`
   align-items: center;
 `;
 
-export const initialMessage: MessageType[] = [
+export const initialMessage: VisibleMessageType[] = [
   {
     role: "assistant",
     content:
@@ -42,7 +42,7 @@ export const App = () => {
       {
         role: "user",
         content: currentMessage,
-      } as MessageType,
+      } as VisibleMessageType,
     ];
     setMessages(newMessages);
     setCurrentMessage("");
