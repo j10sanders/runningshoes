@@ -2,6 +2,13 @@ import dbConnect from "./dbConnect";
 import { generateEmbedding } from "./generateEmbedding";
 import { mongoose } from "./astradb-mongoose";
 
+export type VideosCleaned = {
+  title: string;
+  author: string;
+  url: string;
+  summary: string;
+};
+
 export const findVideos = async (query: string) => {
   await dbConnect();
   const embedding = await generateEmbedding(query);
@@ -16,7 +23,7 @@ export const findVideos = async (query: string) => {
     .limit(3)
     .lean();
 
-  const videosCleaned = videos.map((video) => {
+  const videosCleaned: VideosCleaned[] = videos.map((video) => {
     return {
       title: video.title,
       author: video.author,

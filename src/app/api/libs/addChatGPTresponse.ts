@@ -1,8 +1,10 @@
 import OpenAI from "openai";
-// import { initialMessage } from "@/app/app";
+import { VideosCleaned } from "./findRelatedVideos";
 
-// TODO: make another call to see if the user wants to know about a different shoe, and if so, search for that shoe's reviews
-export const addChatGPTresponse = async (videos, messages) => {
+export const addChatGPTresponse = async (
+  videos: VideosCleaned,
+  messages: OpenAI.Chat.ChatCompletionCreateParams["messages"]
+) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   if (messages[0].role !== "system") {
     messages = [
@@ -42,7 +44,7 @@ export const addChatGPTresponse = async (videos, messages) => {
   return messages;
 };
 
-export const addGPTSummary = async (transcript) => {
+export const addGPTSummary = async (transcript: string) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",

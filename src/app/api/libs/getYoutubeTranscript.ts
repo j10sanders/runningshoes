@@ -1,6 +1,6 @@
-import { YoutubeTranscript } from "youtube-transcript";
+import { TranscriptResponse, YoutubeTranscript } from "youtube-transcript";
 
-export const getVideoIdFromUrl = (url) => {
+export const getVideoIdFromUrl = (url: string) => {
   let videoId = url.split("v=")[1];
   const ampersandPosition = videoId.indexOf("&");
   if (ampersandPosition !== -1) {
@@ -10,7 +10,7 @@ export const getVideoIdFromUrl = (url) => {
 };
 
 export const convertYoutubeTranscriptJsonToString = async (
-  jsonYoutubeTranscript
+  jsonYoutubeTranscript: TranscriptResponse[]
 ) => {
   let stringYoutubeTranscript = "";
   for (let i = 0; i < jsonYoutubeTranscript.length; i++) {
@@ -22,7 +22,7 @@ export const convertYoutubeTranscriptJsonToString = async (
   return stringYoutubeTranscript;
 };
 
-export const getYoutubeTranscript = async (url) => {
+export const getYoutubeTranscript = async (url: string) => {
   const videoId = getVideoIdFromUrl(url);
   const transcriptJson = await YoutubeTranscript.fetchTranscript(videoId);
   const transcriptString = await convertYoutubeTranscriptJsonToString(

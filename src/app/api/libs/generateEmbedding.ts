@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-export const generateEmbedding = async (prompt) => {
+export const generateEmbedding = async (prompt: string) => {
   const response = await fetch("https://api.openai.com/v1/embeddings", {
     method: "POST",
     headers: {

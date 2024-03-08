@@ -31,7 +31,7 @@ const CustomForm = styled("form")`
   border-radius: 8px;
 `;
 
-export type MessageType = {
+export type VisibleMessageType = {
   role: "user" | "assistant";
   content: string;
 };
@@ -50,7 +50,7 @@ export const scaleFromLeft = {
   },
 };
 interface ChatProps {
-  messages: MessageType[];
+  messages: VisibleMessageType[];
   loading?: boolean;
   handleSearchShoe: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   setCurrentMessage: Dispatch<SetStateAction<string>>;

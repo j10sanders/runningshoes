@@ -1,7 +1,6 @@
 import ytdl from "ytdl-core";
-// const fs = require("fs");
 
-export const getYoutubeVideoInfo = async (url) => {
+export const getYoutubeVideoInfo = async (url: string) => {
   try {
     let info = await ytdl.getInfo(url);
     const videoDetails = info.videoDetails;
@@ -11,7 +10,9 @@ export const getYoutubeVideoInfo = async (url) => {
       title: videoDetails.title,
       description: videoDetails.description,
       author: author.name,
-      author_thumbnail: author.thumbnails[author.thumbnails.length - 1].url,
+      author_thumbnail: author.thumbnails
+        ? author.thumbnails[author.thumbnails.length - 1].url
+        : undefined,
       thumbnail:
         videoDetails.thumbnails[videoDetails.thumbnails.length - 1].url,
     };
