@@ -20,6 +20,7 @@ type SharedProps = {
   color?: string;
   fontSize?: number;
   borderRadius?: number;
+  columnGap?: number;
 };
 
 const cssProp = (prop: string | number | undefined, suffix = "") =>
@@ -44,6 +45,7 @@ const sharedStyles = (props: SharedProps) => `
   flex-direction: ${props.flexDirection || "row"};
   justify-content: ${props.justifyContent || "flex-start"};
   align-items: ${props.alignItems || "stretch"};
+  column-gap: ${cssProp(props.columnGap, "px")};
 `;
 
 export const Box = styled.div<SharedProps>`

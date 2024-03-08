@@ -1,14 +1,11 @@
 import { Box, FlexBox } from "./Styles";
-import Markdown from "react-markdown";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 export interface MessageProps extends React.PropsWithChildren {
-  image?: string;
+  image?: StaticImageData;
   placement: "left" | "right";
   maxHeight?: number;
 }
-
-// const Image = Box.withComponent("img");
 
 export const Message: React.FC<MessageProps> = ({
   children,
@@ -44,7 +41,7 @@ export const Message: React.FC<MessageProps> = ({
       backgroundColor="beige"
       ml={placement === "right" || !image ? (92 as never) : 0}
       mr={placement === "left" || !image ? (92 as never) : 0}
-      p={32}
+      p={22}
       fontSize={20}
       color="black"
       borderRadius={16}

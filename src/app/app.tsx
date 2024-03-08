@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { Input, Button } from "@mui/joy";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Chat, MessageType } from "./Chat";
 import { Message } from "./Message";
 
@@ -36,12 +36,16 @@ export const initialMessage: MessageType[] = [
 ];
 export const App = () => {
   const [messages, setMessages] = useState(initialMessage);
-  const [currentMessage, setCurrentMessage] = useState("");
+  const [currentMessage, setCurrentMessage] = useState(
+    "Tell me what YouTube reviewers think about the:"
+  );
+  const [loading, setLoading] = useState(false);
 
   console.log(currentMessage, "currentMessage");
 
-  const handleSearchShoe = async () => {
-    // event.preventDefault();
+  const handleSearchShoe = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
 
     const newMessages = [
       ...messages,
@@ -51,6 +55,8 @@ export const App = () => {
       } as MessageType,
     ];
     setMessages(newMessages);
+    setCurrentMessage("");
+    setLoading(true);
 
     try {
       const response = await fetch("/api/search-shoe", {
@@ -62,30 +68,31 @@ export const App = () => {
         body: JSON.stringify({ messages: newMessages }), // Sending the video URL in the request body
       });
 
+      console.log("response", response);
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-
+      setLoading(false);
+      console.log(response, "RESPONSE");
       const data = await response.json();
       setMessages(data.messages);
       console.log(data, "DATA");
-      // setVideoInfo(data);  // Handling the response
     } catch (error) {
       console.error("Failed to fetch:", error);
     }
   };
 
+  // TODO: "Tell me what reviewers think about the: "
   return (
     <MainDiv>
-      <SearchBarContainer>
-        <Input
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-        />
-        <Button onClick={() => handleSearchShoe()}>Search shoe</Button>
-      </SearchBarContainer>
       <ContentContainer>
-        <Chat messages={messages} />
+        <Chat
+          messages={messages}
+          handleSearchShoe={handleSearchShoe}
+          setCurrentMessage={setCurrentMessage}
+          currentMessage={currentMessage}
+          loading={loading}
+        />
       </ContentContainer>
     </MainDiv>
   );
