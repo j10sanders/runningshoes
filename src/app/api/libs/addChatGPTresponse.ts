@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import { VideosCleaned } from "./findRelatedVideos";
 
 export const addChatGPTresponse = async (
-  videos: VideosCleaned,
+  videos: VideosCleaned[],
   messages: OpenAI.Chat.ChatCompletionCreateParams["messages"]
 ) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });

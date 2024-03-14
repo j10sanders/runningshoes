@@ -1,6 +1,7 @@
 import { addChatGPTresponse } from "../libs/addChatGPTresponse";
 import { findVideos } from "../libs/findRelatedVideos";
 
+// TODO: this api route should use an AgentExecuter https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
 export const POST = async (req: Request) => {
   const body = await req.json();
   let messages = body.messages || [];
