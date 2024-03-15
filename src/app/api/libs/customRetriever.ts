@@ -4,8 +4,8 @@ import {
 } from "@langchain/core/retrievers";
 import type { CallbackManagerForRetrieverRun } from "@langchain/core/callbacks/manager";
 import { Document } from "@langchain/core/documents";
-import { mongoose } from "./astradb-mongoose"; // Adjust the import path as necessary
-import { generateEmbedding } from "./generateEmbedding"; // Adjust the import path as necessary
+import { mongoose } from "./astradb-mongoose";
+import { generateEmbedding } from "./generateEmbedding";
 
 export interface CustomRetrieverInput extends BaseRetrieverInput {}
 
@@ -20,10 +20,7 @@ export class CustomRetriever extends BaseRetriever {
     query: string,
     runManager?: CallbackManagerForRetrieverRun
   ): Promise<Document[]> {
-    // Generate the embedding for the query
     const embedding = await generateEmbedding(query);
-
-    // Query your MongoDB database using the generated embedding
     const videos = await mongoose
       .model("Video")
       .find(
