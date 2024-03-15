@@ -7,3 +7,5 @@ const videoRetrieverTool = createRetrieverTool(customRetrieverInstance, {
   name: "video_search",
   description: "Retrieves related videos based on the query context.",
 });
+
+export const tools = [videoRetrieverTool];
