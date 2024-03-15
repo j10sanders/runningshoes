@@ -2,8 +2,6 @@ import dbConnect from "./dbConnect";
 import { generateEmbedding } from "./generateEmbedding";
 import { mongoose } from "./astradb-mongoose";
 
-//TODO: utilize langchain agent https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
-
 export type VideosCleaned = {
   title: string;
   author: string;
