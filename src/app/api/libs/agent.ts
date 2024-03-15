@@ -19,3 +19,9 @@ const agentExecutor = new AgentExecutor({
   agent,
   tools,
 });
+
+const result = await agentExecutor.invoke({
+  input: `what do reviewers think of the Rebel v4?`,
+});
+
+console.log(result);
