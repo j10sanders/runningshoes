@@ -9,6 +9,7 @@ export type VideosCleaned = {
   summary: string;
 };
 
+// deprecated for customRetriever
 export const findVideos = async (query: string) => {
   await dbConnect();
   const embedding = await generateEmbedding(query);
