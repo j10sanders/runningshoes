@@ -4,24 +4,32 @@ import { tools } from "./langchainTools";
 import { createOpenAIToolsAgent, AgentExecutor } from "langchain/agents";
 import { pull } from "langchain/hub";
 import type { ChatPromptTemplate } from "@langchain/core/prompts";
+import { BaseMessage } from "langchain/schema";
 
-import { PromptTemplate } from "@langchain/core/prompts";
+// const prompt = await pull<ChatPromptTemplate>("hwchase17/openai-tools-agent");
+const prompt = await pull<ChatPromptTemplate>("jonaerwawer/running");
 
-const prompt = await pull<ChatPromptTemplate>("hwchase17/openai-tools-agent");
-//jonaerwawer/running
+// AgentExecuter https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
+export const agentChat = async (chat_history: BaseMessage[], input: string) => {
+  const agent = await createOpenAIToolsAgent({
+    llm,
+    tools,
+    prompt,
+  });
 
-const agent = await createOpenAIToolsAgent({
-  llm,
-  tools,
-  prompt,
-});
-const agentExecutor = new AgentExecutor({
-  agent,
-  tools,
-});
+  const agentExecutor = new AgentExecutor({
+    agent,
+    tools,
+  });
 
-const result = await agentExecutor.invoke({
-  input: `what do reviewers think of the Rebel v4?`,
-});
+  const result = await agentExecutor.invoke({
+    input,
+    chat_history,
+  });
 
-console.log(result);
+  return [
+    ...chat_history,
+    { role: "user", content: input },
+    { role: "assistant", content: result.output },
+  ];
+};

@@ -6,6 +6,7 @@ import type { CallbackManagerForRetrieverRun } from "@langchain/core/callbacks/m
 import { Document } from "@langchain/core/documents";
 import { mongoose } from "./astradb-mongoose";
 import { generateEmbedding } from "./generateEmbedding";
+import dbConnect from "./dbConnect";
 
 export interface CustomRetrieverInput extends BaseRetrieverInput {}
 
@@ -20,6 +21,8 @@ export class CustomRetriever extends BaseRetriever {
     query: string,
     runManager?: CallbackManagerForRetrieverRun
   ): Promise<Document[]> {
+    await dbConnect();
+    console.log(query, "QUERY");
     const embedding = await generateEmbedding(query);
     const videos = await mongoose
       .model("Video")
@@ -36,7 +39,7 @@ export class CustomRetriever extends BaseRetriever {
     const documents = videos.map(
       (video) =>
         new Document({
-          pageContent: `${video.title}. ${video.summary}`,
+          pageContent: `${video.title}. ${video.summary}. \n\n url: ${video.url}, author: ${video.author}`,
           metadata: {
             title: video.title,
             url: video.url,
@@ -47,6 +50,7 @@ export class CustomRetriever extends BaseRetriever {
         })
     );
 
+    console.log(documents, "DOCUMENTS");
     return documents;
   }
 }
